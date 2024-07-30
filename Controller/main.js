@@ -84,33 +84,21 @@ const submitAssessment = async (req, res) => {
     }
   };
   
-
-const createAssessment = async (req, res) => {
-    const { userId } = req.user;
-    const { responses } = req.body;
-  
-    try {
-      const assessment = new Assessment({ userId, responses });
-      await assessment.save();
-      res.status(201).json({ message: 'Assessment created successfully!', assessment });
-    } catch (error) {
-      res.status(400).json({ error: 'Failed to create assessment' });
-    }
-  };
-  
   // Retrieve an assessment by ID
-const getAssessment = async (req, res) => {
-    const { id } = req.params;
-  
+  const getAssessmentsByUser = async (req, res) => {
+    const userId = req.user.id; // Assuming user ID is available in the request object after authentication
+
     try {
-      const assessment = await Assessment.findById(id);
-      if (!assessment) return res.status(404).json({ error: 'Assessment not found' });
-      res.status(200).json(assessment);
+        const assessments = await Assessment.find({ userId });
+        if (!assessments || assessments.length === 0) {
+            return res.status(404).json({ error: 'No assessments found for this user' });
+        }
+        res.status(200).json(assessments);
     } catch (error) {
-      res.status(400).json({ error: 'Failed to retrieve assessment' });
+        res.status(400).json({ error: 'Failed to retrieve assessments' });
     }
-  };
-  
+};
+
   // Update an existing assessment
 const updateAssessment = async (req, res) => {
     const { id } = req.params;
@@ -138,4 +126,4 @@ const deleteAssessment = async (req, res) => {
     }
   };
 
-module.exports = { registerUser, loginUser, authenticateToken,createAssessment, updateAssessment, getAssessment, deleteAssessment, submitAssessment };
+module.exports = { registerUser, loginUser, authenticateToken, updateAssessment, getAssessmentsByUser, deleteAssessment, submitAssessment };
