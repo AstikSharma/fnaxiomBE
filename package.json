@@ -1,5 +1,5 @@
 {
-  "name": "fnabe",
+  "name": "fnaxiombe",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
-    "mongoose": "^8.5.1",
+    "mongoose": "^8.5.1"
   },
   "devDependencies": {
     "eslint": "^8",
